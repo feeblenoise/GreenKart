@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>AgriKart - Login or Signup</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: url('https://i.pinimg.com/736x/91/b7/49/91b7495fa99ef3dd519901ceed8a6c17.jpg') no-repeat center center fixed;
+      background-size: cover;
+    }
+
+    .overlay {
+      background-color: rgba(0, 0, 0, 0.6);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      display: flex;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+      max-width: 900px;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .info-box {
+      flex: 1;
+      background: #2874f0;
+      color: white;
+      padding: 40px 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .info-box h2 {
+      margin-bottom: 20px;
+    }
+
+    .info-box ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .info-box li {
+      margin-bottom: 12px;
+      font-size: 16px;
+    }
+
+    .form-box {
+      flex: 1;
+      padding: 40px 30px;
+    }
+
+    .form-box h2 {
+      color: #2874f0;
+      margin-bottom: 20px;
+    }
+
+    form input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    form button {
+      width: 100%;
+      padding: 12px;
+      background: #2874f0;
+      color: white;
+      border: none;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    form button:hover {
+      background: #0a5bd3;
+    }
+
+    .toggle {
+      text-align: center;
+      margin-top: 15px;
+      color: #555;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .toggle:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <div class="container">
+      <div class="info-box">
+        <h2>Why AgriKart?</h2>
+        <ul>
+          <li>🌾 Direct-from-farm fresh produce</li>
+          <li>🚜 Modern tools & equipment</li>
+          <li>📦 Easy online ordering & delivery</li>
+          <li>💰 Fair prices & farmer support</li>
+          <li>⭐ Trusted by 10K+ customers</li>
+        </ul>
+      </div>
+      <div class="form-box">
+        <h2 id="formTitle">Login to AgriKart</h2>
+        <form id="authForm">
+          <input type="text" id="username" placeholder="Username" required />
+          <input type="password" id="password" placeholder="Password" required />
+          <div id="emailField" style="display:none;">
+            <input type="email" id="email" placeholder="Email" />
+          </div>
+          <button type="submit" id="submitBtn">Login</button>
+        </form>
+        <div class="toggle" onclick="toggleForm()">
+          Don't have an account? <span id="toggleText">Sign up</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let isLogin = true;
+
+    function toggleForm() {
+      isLogin = !isLogin;
+      document.getElementById("formTitle").innerText = isLogin ? "Login to AgriKart" : "Create Your AgriKart Account";
+      document.getElementById("submitBtn").innerText = isLogin ? "Login" : "Sign Up";
+      document.getElementById("toggleText").innerText = isLogin ? "Sign up" : "Login";
+      document.getElementById("emailField").style.display = isLogin ? "none" : "block";
+    }
+
+    document.getElementById("authForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      if (isLogin) {
+        // Demo login check
+        if (username === "user" && password === "1234") {
+          localStorage.setItem("loggedIn", "true");
+          window.location.href = "dashboard.html";
+        } else {
+          alert("Invalid login! Use demo: user / 1234");
+        }
+      } else {
+        // Signup logic (for demo only)
+        const email = document.getElementById("email").value;
+        if (username && password && email) {
+          alert("Signup successful! Please login now.");
+          toggleForm();
+        } else {
+          alert("Please fill all signup fields.");
+        }
+      }
+    });
+  </script>
+</body>
+</html>
