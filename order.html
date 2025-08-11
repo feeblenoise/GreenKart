@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Orders</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #e7ddb0; /* Matching Seeds page background */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      background-color: #f9f9f9;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      max-width: 1000px;
+      width: 100%;
+      padding: 30px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 32px;
+      color: #333;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 15px;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #4CAF50;
+      color: white;
+      font-size: 18px;
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    td {
+      font-size: 16px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>My Orders</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Items</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="orderTableBody">
+        <!-- Orders will be loaded here -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    // Placeholder data (replace with DB fetch later)
+    const orders = [
+      { id: 'ORD001', items: 'Tomatoes, Cucumbers', status: 'Delivered' },
+      { id: 'ORD002', items: 'Mangoes, Bananas', status: 'In Transit' },
+      { id: 'ORD003', items: 'Spinach, Carrots', status: 'Pending' }
+    ];
+
+    function loadOrders() {
+      const tableBody = document.getElementById('orderTableBody');
+      tableBody.innerHTML = '';
+      orders.forEach(order => {
+        const row = `
+          <tr>
+            <td>${order.id}</td>
+            <td>${order.items}</td>
+            <td>${order.status}</td>
+          </tr>`;
+        tableBody.innerHTML += row;
+      });
+    }
+
+    loadOrders();
+  </script>
+
+</body>
+</html>
