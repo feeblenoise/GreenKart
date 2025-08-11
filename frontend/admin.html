@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AgriKart Admin Dashboard</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #e7ddb0;
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    /* Container holding sidebar and main */
+    .container {
+      display: flex;
+      width: 100%;
+      max-width: 1200px;
+      background: #f9f9f9;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      min-height: 600px;
+    }
+
+    /* Sidebar styles */
+    .sidebar {
+      width: 250px;
+      background-color: #2c3e50;
+      color: white;
+      padding: 30px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-top-left-radius: 20px;
+      border-bottom-left-radius: 20px;
+    }
+
+    .sidebar h2 {
+      margin: 0 0 30px 0;
+      font-size: 24px;
+      text-align: center;
+      font-weight: 700;
+    }
+
+    .sidebar a {
+      color: white;
+      text-decoration: none;
+      padding: 12px 15px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+
+    .sidebar a.active,
+    .sidebar a:hover {
+      background-color: #16a085;
+    }
+
+    .sidebar .logout {
+      margin-top: auto;
+      padding: 12px 15px;
+      background: #c0392b;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .sidebar .logout:hover {
+      background-color: #e74c3c;
+    }
+
+    /* Main content styles */
+    .main-content {
+      flex: 1;
+      padding: 30px 40px;
+      background: white;
+      overflow-y: auto;
+      border-top-right-radius: 20px;
+      border-bottom-right-radius: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header h1 {
+      margin: 0 0 25px 0;
+      color: #333;
+      font-weight: 700;
+      font-size: 28px;
+      text-align: center;
+    }
+
+    .content-section {
+      margin-top: 10px;
+      flex-grow: 1;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    table thead {
+      background-color: #16a085;
+      color: white;
+    }
+
+    table th,
+    table td {
+      padding: 14px 18px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    table tbody tr:hover {
+      background-color: #f1f9f8;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    /* Buttons */
+    .edit-btn,
+    .delete-btn {
+      border: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      font-size: 13px;
+      margin-right: 6px;
+    }
+
+    .edit-btn {
+      background-color: #3498db;
+      color: white;
+    }
+
+    .edit-btn:hover {
+      background-color: #2980b9;
+    }
+
+    .delete-btn {
+      background-color: #e74c3c;
+      color: white;
+    }
+
+    .delete-btn:hover {
+      background-color: #c0392b;
+    }
+
+    /* Form styling */
+    form {
+      background: #fefefe;
+      padding: 25px 30px;
+      border-radius: 15px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      margin-top: 15px;
+    }
+
+    form label {
+      display: block;
+      margin-top: 15px;
+      font-weight: 600;
+      font-size: 15px;
+      color: #333;
+    }
+
+    form input[type="text"],
+    form input[type="number"],
+    form textarea,
+    form input[type="file"] {
+      width: 100%;
+      padding: 10px 14px;
+      margin-top: 6px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      resize: vertical;
+      font-family: inherit;
+    }
+
+    form textarea {
+      min-height: 90px;
+    }
+
+    form button {
+      margin-top: 20px;
+      background-color: #16a085;
+      border: none;
+      color: white;
+      font-weight: 700;
+      padding: 12px 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+      width: 100%;
+    }
+
+    form button:hover {
+      background-color: #138d75;
+    }
+
+    /* Inputs for search and filter */
+    #searchInput,
+    #filterCategory {
+      padding: 10px 14px;
+      margin: 10px 10px 20px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      width: 200px;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .container {
+        flex-direction: column;
+        max-width: 100%;
+        min-height: auto;
+      }
+
+      .sidebar {
+        width: 100%;
+        border-radius: 20px 20px 0 0;
+        padding: 20px;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-around;
+      }
+
+      .sidebar h2 {
+        flex-basis: 100%;
+        margin-bottom: 15px;
+      }
+
+      .sidebar a,
+      .sidebar .logout {
+        margin-bottom: 8px;
+        padding: 8px 12px;
+        font-size: 14px;
+        flex-grow: 1;
+        text-align: center;
+      }
+
+      .main-content {
+        border-radius: 0 0 20px 20px;
+        padding: 20px;
+        width: 100%;
+        margin: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <h2>AgriKart</h2>
+      <a href="#" class="nav-link active" data-section="dashboard">Dashboard</a>
+      <a href="#" class="nav-link" data-section="view-products">View Products</a>
+      <a href="#" class="nav-link" data-section="add-product">Add Product</a>
+      <a href="#" class="nav-link" data-section="orders">Orders</a>
+      <a href="#" class="nav-link" data-section="customers">Customers</a>
+      <a href="#" class="nav-link" data-section="settings">Settings</a>
+      <a href="#" class="logout">Logout</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <header>
+        <h1>Admin Dashboard</h1>
+      </header>
+
+      <!-- Dashboard -->
+      <section id="dashboard" class="content-section">
+        <h2>Welcome, Admin!</h2>
+        <p>Select an option from the sidebar to manage AgriKart.</p>
+      </section>
+
+      <!-- View Products -->
+      <section id="view-products" class="content-section" style="display: none;">
+        <h2>View Products</h2>
+        <input type="text" id="searchInput" placeholder="Search products..." onkeyup="searchProducts()" />
+        <select id="filterCategory" onchange="filterProducts()">
+          <option value="">All Categories</option>
+          <option value="Seeds">Seeds</option>
+          <option value="Tools">Tools</option>
+        </select>
+        <table id="productTable">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Product Name</th>
+              <th>Category</th>
+              <th>Price</th>
+              <th>Stock</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>001</td>
+              <td>Organic Tomato Seeds</td>
+              <td>Seeds</td>
+              <td>₹150</td>
+              <td>120</td>
+              <td>
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+              </td>
+            </tr>
+            <tr>
+              <td>002</td>
+              <td>Drip Irrigation Kit</td>
+              <td>Tools</td>
+              <td>₹1200</td>
+              <td>35</td>
+              <td>
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Add Product -->
+      <section id="add-product" class="content-section" style="display: none;">
+        <h2>Add Product</h2>
+        <form id="addProductForm">
+          <label for="productName">Product Name:</label>
+          <input type="text" id="productName" required />
+          <label for="productCategory">Category:</label>
+          <input type="text" id="productCategory" required />
+          <label for="productPrice">Price:</label>
+          <input type="number" id="productPrice" required />
+          <label for="productStock">Stock Quantity:</label>
+          <input type="number" id="productStock" required />
+          <label for="productDesc">Description:</label>
+          <textarea id="productDesc" required></textarea>
+          <label for="productImage">Product Image:</label>
+          <input type="file" id="productImage" required />
+          <button type="submit">Add Product</button>
+        </form>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    // Sidebar navigation
+    document.querySelectorAll(".nav-link").forEach(link => {
+      link.addEventListener("click", function (e) {
+        e.preventDefault();
+        // Remove active class from all links
+        document.querySelectorAll(".nav-link").forEach(item => item.classList.remove("active"));
+        this.classList.add("active");
+        // Hide all sections
+        document.querySelectorAll(".content-section").forEach(sec => (sec.style.display = "none"));
+        // Show selected section
+        let sectionId = this.getAttribute("data-section");
+        document.getElementById(sectionId).style.display = "block";
+      });
+    });
+
+    // Search Products
+    function searchProducts() {
+      let input = document.getElementById("searchInput").value.toLowerCase();
+      let rows = document.querySelectorAll("#productTable tbody tr");
+      rows.forEach(row => {
+        let text = row.innerText.toLowerCase();
+        row.style.display = text.includes(input) ? "" : "none";
+      });
+    }
+
+    // Filter Products by Category
+    function filterProducts() {
+      let category = document.getElementById("filterCategory").value;
+      let rows = document.querySelectorAll("#productTable tbody tr");
+      rows.forEach(row => {
+        let prodCategory = row.cells[2].innerText;
+        row.style.display = category === "" || prodCategory === category ? "" : "none";
+      });
+    }
+
+    // Add Product to Table (Demo only)
+    document.getElementById("addProductForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      let name = document.getElementById("productName").value;
+      let category = document.getElementById("productCategory").value;
+      let price = document.getElementById("productPrice").value;
+      let stock = document.getElementById("productStock").value;
+      let table = document.querySelector("#productTable tbody");
+      let newRow = table.insertRow();
+      newRow.innerHTML = `
+        <td>NEW</td>
+        <td>${name}</td>
+        <td>${category}</td>
+        <td>₹${price}</td>
+        <td>${stock}</td>
+        <td>
+          <button class="edit-btn">Edit</button>
+          <button class="delete-btn">Delete</button>
+        </td>`;
+      alert("Product added (Demo Only)");
+      this.reset();
+    });
+  </script>
+</body>
+
+</html>

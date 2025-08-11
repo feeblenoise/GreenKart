@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>All Other Accessories</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #e7ddb0;
+      padding: 30px 15px;
+      margin: 0;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 32px;
+      color: #333;
+    }
+
+    .product-preview {
+      width: 90%;
+      max-width: 1000px;
+      margin: 0 auto 50px auto;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transition: transform 0.2s ease;
+    }
+
+    .product-preview:hover {
+      transform: scale(1.01);
+    }
+
+    a.product-link {
+      display: block;
+      text-decoration: none;
+    }
+
+    iframe {
+      width: 100%;
+      height: 500px;
+      border: none;
+      pointer-events: none; /* Disables interaction */
+    }
+
+    @media (max-width: 768px) {
+      iframe {
+        height: 350px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Other Accessories Previews</h1>
+
+  
+  <a href="gloves.html" target="_self" class="product-link">
+    <div class="product-preview">
+      <iframe src="gloves.html"></iframe>
+    </div>
+  </a>
+
+  <a href="Boots.html" target="_self" class="product-link">
+    <div class="product-preview">
+      <iframe src="Boots.html"></iframe>
+    </div>
+  </a>
+
+  <a href="Sprinkler.html" target="_self" class="product-link">
+    <div class="product-preview">
+      <iframe src="Sprinkler.html"></iframe>
+    </div>
+  </a>
+
+</body>
+</html>
