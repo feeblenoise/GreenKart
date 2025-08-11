@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>🛒 Review Cart</title>
+<style>
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #e7ddb0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  .container {
+    background-color: #f9f9f9;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    max-width: 900px;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .title {
+    padding: 20px;
+    text-align: center;
+    background-color: #fff;
+  }
+  .cart-items {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    background: #fff;
+  }
+  .cart-item {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    margin-bottom: 15px;
+    padding: 15px;
+       border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+
+.cart-item:hover{
+  transform: scale(1.03); /* slightly bigger */
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2); /* shadow */
+  cursor: pointer;
+}
+  .cart-item img {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    margin-right: 15px;
+    object-fit: cover;
+  }
+  .cart-item-details {
+    flex: 1;
+  }
+  .cart-item-details h3 {
+    margin: 0;
+  }
+  .price {
+    color: #e63946;
+    font-weight: bold;
+  }
+  .checkout {
+    padding: 20px;
+    text-align: center;
+    background-color: #fff;
+  }
+  .checkout button {
+    background-color: #2a9d8f;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .checkout button:hover {
+    background-color: #21867a;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="title">
+    <h1>🛒 Before Checkout</h1>
+  </div>
+
+  <div class="cart-items">
+    <!-- Dummy product items -->
+    <div class="cart-item">
+      <img src="https://via.placeholder.com/80" alt="Product">
+      <div class="cart-item-details">
+        <h3>Smart Pot</h3>
+        <p>Quantity: 1</p>
+        <p class="price">Rs.25</p>
+      </div>
+    </div>
+
+    <div class="cart-item">
+      <img src="https://via.placeholder.com/80" alt="Product">
+      <div class="cart-item-details">
+        <h3>Organic Seeds Pack</h3>
+        <p>Quantity: 2</p>
+        <p class="price">Rs.200</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="checkout">
+    <button>Proceed to Payment</button>
+  </div>
+</div>
+
+</body>
+</html>
