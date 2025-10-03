@@ -1,25 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>My Orders</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
+    * { box-sizing: border-box; }
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background-color: #e7ddb0; /* Matching Seeds page background */
+      background-color: #e7ddb0;
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
       padding: 20px;
     }
-
     .container {
       background-color: #f9f9f9;
       border-radius: 20px;
@@ -28,14 +24,12 @@
       width: 100%;
       padding: 30px;
     }
-
     h1 {
       text-align: center;
       margin-bottom: 25px;
       font-size: 32px;
       color: #333;
     }
-
     table {
       width: 100%;
       border-collapse: collapse;
@@ -43,27 +37,30 @@
       border-radius: 10px;
       overflow: hidden;
     }
-
     th, td {
       padding: 15px;
       text-align: center;
       border-bottom: 1px solid #ddd;
     }
-
     th {
       background-color: #4CAF50;
       color: white;
       font-size: 18px;
     }
-
     tr:hover {
       background-color: #f1f1f1;
     }
-
     td {
       font-size: 16px;
       color: #333;
     }
+    .error, .loading {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 16px;
+    }
+    .error { color: red; }
+    .loading { color: #555; }
   </style>
 </head>
 <body>
@@ -82,28 +79,45 @@
         <!-- Orders will be loaded here -->
       </tbody>
     </table>
+    <div id="loadingMessage" class="loading">Loading orders...</div>
+    <div id="errorMessage" class="error"></div>
   </div>
 
   <script>
-    // Placeholder data (replace with DB fetch later)
-    const orders = [
-      { id: 'ORD001', items: 'Tomatoes, Cucumbers', status: 'Delivered' },
-      { id: 'ORD002', items: 'Mangoes, Bananas', status: 'In Transit' },
-      { id: 'ORD003', items: 'Spinach, Carrots', status: 'Pending' }
-    ];
-
-    function loadOrders() {
+    async function loadOrders() {
+      const loading = document.getElementById('loadingMessage');
+      const error = document.getElementById('errorMessage');
       const tableBody = document.getElementById('orderTableBody');
+
+      loading.style.display = 'block';
+      error.textContent = '';
       tableBody.innerHTML = '';
-      orders.forEach(order => {
-        const row = `
-          <tr>
-            <td>${order.id}</td>
-            <td>${order.items}</td>
-            <td>${order.status}</td>
-          </tr>`;
-        tableBody.innerHTML += row;
-      });
+
+      try {
+        const response = await fetch('/orders');
+        if (!response.ok) throw new Error('Failed to fetch orders');
+        const orders = await response.json();
+
+        loading.style.display = 'none';
+
+        if (orders.length === 0) {
+          tableBody.innerHTML = '<tr><td colspan="3">No orders found</td></tr>';
+          return;
+        }
+
+        orders.forEach(order => {
+          const row = `
+            <tr>
+              <td>${order.orderId}</td>
+              <td>${order.items.join(', ')}</td>
+              <td>${order.status}</td>
+            </tr>`;
+          tableBody.innerHTML += row;
+        });
+      } catch (err) {
+        loading.style.display = 'none';
+        error.textContent = err.message;
+      }
     }
 
     loadOrders();

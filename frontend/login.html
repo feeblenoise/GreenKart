@@ -155,11 +155,12 @@
 
             if (isLogin) {
                 // LOGIN
-                url = "/auth/login";
+                url = "http://localhost:3000/auth/login";
                 bodyData = { email: username, password };
             } else {
                 // REGISTER
-                url = "/auth/register";
+                url = "http://localhost:3000/auth/login";
+
                 bodyData = { name: username, email: emailField, password };
             }
 
