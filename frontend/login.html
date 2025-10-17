@@ -132,74 +132,74 @@
   </div>
 
   <script>
-    let isLogin = true;
+  let isLogin = true;
 
-    function toggleForm() {
-        isLogin = !isLogin;
-        document.getElementById("formTitle").innerText = isLogin ? "Login to AgriKart" : "Create Your AgriKart Account";
-        document.getElementById("submitBtn").innerText = isLogin ? "Login" : "Sign Up";
-        document.getElementById("toggleText").innerText = isLogin ? "Sign up" : "Login";
-        document.getElementById("emailField").style.display = isLogin ? "none" : "block";
-    }
+  function toggleForm() {
+    isLogin = !isLogin;
+    document.getElementById("formTitle").innerText = isLogin ? "Login to AgriKart" : "Create Your AgriKart Account";
+    document.getElementById("submitBtn").innerText = isLogin ? "Login" : "Sign Up";
+    document.getElementById("toggleText").innerText = isLogin ? "Sign up" : "Login";
+    document.getElementById("emailField").style.display = isLogin ? "none" : "block";
+  }
 
-    document.getElementById("authForm").addEventListener("submit", async function (e) {
-        e.preventDefault();
+  document.getElementById("authForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
 
-        const username = document.getElementById("username").value.trim();
-        const password = document.getElementById("password").value.trim();
-        const emailField = document.getElementById("email")?.value.trim(); // Only for signup
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const emailField = document.getElementById("email")?.value.trim(); // Only for signup
 
-        try {
-            let url = "";
-            let bodyData = {};
+    try {
+      let url = "";
+      let bodyData = {};
 
-            if (isLogin) {
-                // LOGIN
-                url = "http://localhost:3000/auth/login";
-                bodyData = { email: username, password };
-            } else {
-                // REGISTER
-                url = "http://localhost:3000/auth/login";
+      if (isLogin) {
+        // LOGIN
+        url = "http://localhost:5500/auth/login";
+        bodyData = { email: username, password };
+      } else {
+        // REGISTER
+        url = "http://localhost:5500/auth/register"; // ✅ Correct endpoint
+        bodyData = { name: username, email: emailField, password };
+      }
 
-                bodyData = { name: username, email: emailField, password };
-            }
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(bodyData)
+      });
 
-            const res = await fetch(url, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(bodyData)
-            });
+      const data = await res.json();
 
-            const data = await res.json();
+      if (!res.ok) {
+        alert(data.error || data || "Something went wrong");
+        return;
+      }
 
-            if (!res.ok) {
-                alert(data || "Something went wrong");
-                return;
-            }
+      alert(data.message);
 
-            alert(data.message);
+      if (isLogin) {
+        // Store info in sessionStorage
+        sessionStorage.setItem("username", data.name);
+        sessionStorage.setItem("role", data.role);
 
-            if (isLogin) {
-                // Store info in sessionStorage
-                sessionStorage.setItem("username", data.name);
-                sessionStorage.setItem("role", data.role);
-
-                // Redirect based on role
-                if (data.role === "admin") {
-                    window.location.href = "/admin-dashboard.html";
-                } else {
-                    window.location.href = "/homepage.html";
-                }
-            } else {
-                // After registration, switch to login form
-                toggleForm();
-            }
-        } catch (error) {
-            console.error("Error:", error);
-            alert("Error connecting to server");
+        // Redirect based on role
+        if (data.role === "admin") {
+          window.location.href = "admin.html"; // ✅ Match actual file name
+        } else {
+          window.location.href = "index.html"; // ✅ Match actual file name
         }
-    });
+      } else {
+        // After registration, switch to login form
+        toggleForm();
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Error connecting to server");
+    }
+  });
 </script>
+
 
 </body>
 </html>
